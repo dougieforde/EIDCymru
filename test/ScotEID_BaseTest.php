@@ -30,6 +30,9 @@ class ScotEID_BaseTest extends PHPUnit_Framework_TestCase
       'transport_details'
     );
     
+    // disable foreign key checks to allow TRUNCATE table in newer MySQL
+    dbw_query("SET FOREIGN_KEY_CHECKS = 0");
+    
     foreach($teardown as $table) {
       dbw_query("TRUNCATE $table");
     }
@@ -54,7 +57,11 @@ class ScotEID_BaseTest extends PHPUnit_Framework_TestCase
     
     dbw_query("INSERT ccppp_names(CC,PPP) VALUES (98,863);");
     dbw_query("INSERT ccppp_names(CC,PPP) VALUES (66,001);");
-    
+   
+    // 
+    // re-enable foreign key checks
+
+    dbw_query("SET FOREIGN_KEY_CHECKS = 1");
   }
   
   protected function assertLotsEqual($lot1, $lot2, $skip = array()) {

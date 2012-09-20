@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.scoteid.com/api/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:FindIncompleteLotsRequest>
+         <LotDate>2010-03-03Z</LotDate>
+	 			 <LotNumber>0001</LotNumber>
+      </api:FindIncompleteLotsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,7 @@
+# Example of ROOT/.lighty.yml
+lighty:
+  /usr/sbin/lighttpd
+php:
+  enabled: true
+  versions:
+    5_3_2: "/usr/bin/php5-cgi"

@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.scoteid.com/api/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:CompleteLotRequest>
+         <LotReference>{B793AA3A-648D-0FB2-F9CF-BBC063AC16FD}</LotReference>
+      </api:CompleteLotRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

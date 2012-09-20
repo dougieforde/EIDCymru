@@ -1,0 +1,3 @@
+[submodule "include/php_ice_cube"]
+	path = include/php_ice_cube
+	url = https://lewism@github.com/lewism/php_ice_cube.git

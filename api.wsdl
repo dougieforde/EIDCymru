@@ -1,0 +1,2086 @@
+<?php print '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'; ?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://api.scoteid.com/api/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="api"
+	targetNamespace="http://api.scoteid.com/api/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://api.scoteid.com/api/" version="1.4.2">
+			<xsd:simpleType name="ApplicationName_Type">
+				<xsd:annotation>
+					<xsd:documentation> String containing the name of your webservices client, e.g.
+						"ScotEID Desktop" 
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="50"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="ApplicationVersion_Type">
+				<xsd:annotation>
+					<xsd:documentation> String containing the version of your webservices client,
+						e.g. "1.1.4" 
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="50"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="SchemaVersion_Type">
+				<xsd:annotation>
+					<xsd:documentation> The version of the schema version your webservices client is
+						built upon </xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:complexType name="AbstractRequest_Structure">
+				<xsd:sequence>
+					<xsd:element name="ApplicationName" type="tns:ApplicationName_Type"/>
+					<xsd:element name="ApplicationVersion" type="tns:ApplicationVersion_Type"/>
+					<xsd:element name="SchemaVersion" type="tns:SchemaVersion_Type"/>
+					<xsd:element name="Timestamp" type="xsd:dateTime"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="AbstractResponse_Structure">
+				<xsd:sequence>
+					<xsd:element name="Timestamp" type="xsd:dateTime"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="AbstractFault_Structure">
+				<xsd:sequence>
+					<xsd:element name="ErrorDescription" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="MalformedRequestFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure"/>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UnsupportedSchemaVersionFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure"/>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="SecurityFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure"/>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="Lot_Structure">
+				<xsd:annotation>
+					<xsd:documentation> </xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+          <xsd:element name="LotReference" type="tns:LotReference_Type" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ExternalReference" type="tns:LotReference_Type" minOccurs="0" maxOccurs="1"/>    
+          
+					<xsd:element name="LotNumber" type="tns:LotNumber_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LotDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="MovementType" type="tns:MovementType_Type" minOccurs="0" maxOccurs="1"/>
+
+          <xsd:element name="Species" type="tns:Species_Type" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BatchMark" type="tns:BatchMark_Type" minOccurs="0" maxOccurs="1"/>
+          
+          <xsd:element name="IDType" type="tns:IDType_Type" minOccurs="0" maxOccurs="1"/>
+          
+          <xsd:element name="LotDescription" type="tns:LotDescription_Type" minOccurs="0" maxOccurs="1"/>
+
+          <xsd:element name="ArrivalDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="DepartureDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+
+					<xsd:element name="HeadCount" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="ReadCount" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="DOACount" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+					
+					<xsd:element name="AllEID" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="VisuallyRead" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+
+					<xsd:element name="DepartureLocation" type="tns:CPH_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="ReadLocation" type="tns:CPH_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="DestinationLocation" type="tns:CPH_Type" minOccurs="0" maxOccurs="1"/>
+
+          <!-- deprecated -->
+					<xsd:element name="DepartureKeeperFlockNumber" type="tns:FlockNumber_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="DestinationKeeperFlockNumber" type="tns:FlockNumber_Type" minOccurs="0" maxOccurs="1"/>
+
+          <xsd:element name="DepartureKeeper" type="tns:Keeper_Structure" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="DestinationKeeper" type="tns:Keeper_Structure" minOccurs="0" maxOccurs="1"/>
+
+					<xsd:element name="TransportInformation" type="tns:TransportInformation_Structure" minOccurs="0" maxOccurs="1"/>
+          
+          <xsd:element name="BuyerInvoiceNumber" type="tns:KeeperReference_Type" minOccurs="0"/>
+          <xsd:element name="SellerPaymentNumber" type="tns:KeeperReference_Type" minOccurs="0"/>
+          
+          <xsd:element name="FCI" type="tns:FCI_Structure" minOccurs="0" maxOccurs="1"/>
+          
+					<xsd:element name="TagReadings" type="tns:TagReadings_Structure" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="FlockTags" type="tns:FlockTags_Structure" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="PigIdentities" type="tns:PigIdentities_Structure" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="Lots_Structure">
+				<xsd:sequence>
+					<xsd:element name="Lot" type="tns:Lot_Structure" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+	
+      <xsd:simpleType name="LotReference_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="32"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+        
+      <xsd:simpleType name="KeeperReference_Type">
+        <xsd:restriction base="xsd:int"/>
+      </xsd:simpleType>
+
+			<xsd:simpleType name="HaulierName_Type">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="45"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="DriverName_Type">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="50"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="TransportRegistration_Type">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="8"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="TransportPermitNumber_Type">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+      <xsd:simpleType name="TagReadingType_Type">
+        <xsd:restriction base="xsd:string">
+  				<xsd:enumeration value="eid">
+  					<xsd:annotation>
+  						<xsd:documentation>Electronic tag reading</xsd:documentation>
+  					</xsd:annotation>
+  				</xsd:enumeration>
+  				<xsd:enumeration value="manual">
+  					<xsd:annotation>
+  						<xsd:documentation>Manual tag reading</xsd:documentation>
+  					</xsd:annotation>
+  				</xsd:enumeration>
+  			</xsd:restriction>
+      </xsd:simpleType>
+
+			<xsd:complexType name="TransportInformation_Structure">
+				<xsd:annotation>
+					<xsd:documentation> Structure describing the haulier details for a lot
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="HaulierName" type="tns:HaulierName_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="DriverName" type="tns:DriverName_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="RegistrationNumber" type="tns:TransportRegistration_Type"
+						minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="PermitNumber" type="tns:TransportPermitNumber_Type"
+						minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="ExpectedDuration" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="DepartureTime" type="xsd:time" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LoadingDateTime" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="UnloadingDateTime" type="xsd:dateTime" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="TagReading_Structure">
+				<xsd:annotation>
+					<xsd:documentation> An instance of a tag reading, i.e. unique TagID and
+						Timestamp pair
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="Animal" type="tns:Animal_Structure" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="Hex" type="tns:HexTagID_Type"/>
+				<xsd:attribute name="ISO24631" type="tns:ISO24631TagID_Type"/>
+				<xsd:attribute name="Type" type="tns:TagReadingType_Type"/>
+				<xsd:attribute name="Timestamp" type="xsd:dateTime" use="required"/>
+			</xsd:complexType>
+
+      <xsd:complexType name="PigIdentity_Structure">
+        <xsd:attribute name="Tag" type="xsd:string" />
+      </xsd:complexType>
+
+			<xsd:complexType name="Animal_Structure">
+  			<xsd:sequence>
+    	    <xsd:element name="ETASVerified" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+    			<xsd:element name="AnimalNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				  <xsd:element name="LastReadLocation" type="tns:CPH_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LastDestinationLocation" type="tns:CPH_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LastMovementType" type="tns:MovementType_Type" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LastMovementDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute name="Hex" type="tns:HexTagID_Type"/>
+			</xsd:complexType>
+			
+			<xsd:complexType name="Animals_Structure">
+			  <xsd:sequence>
+			    <xsd:element name="Animal" type="tns:Animal_Structure" minOccurs="0" maxOccurs="unbounded"/>
+			  </xsd:sequence>
+			</xsd:complexType>
+		
+      <xsd:complexType name="FlockTag_Structure">
+        <xsd:attribute name="FlockNumber" type="tns:FlockNumber_Type" use="required"/>
+        <xsd:attribute name="TagCount" type="xsd:int" use="required"/>
+      </xsd:complexType>
+      
+      <xsd:complexType name="Keeper_Structure">
+        <xsd:sequence>
+          <xsd:element name="FlockNumber" type="tns:FlockNumber_Type" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="SlapMark" type="tns:BatchMark_Type" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="Name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Address1" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Address2" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Address3" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Address4" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Postcode" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Tel" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="Email" type="xsd:string" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="AssuranceNumber" type="xsd:string" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+      </xsd:complexType>
+      
+			<xsd:simpleType name="LotNumber_Type">
+				<xsd:annotation>
+					<xsd:documentation> Lot number in arbitrary format, must have a maximum length
+						of 10 characters and be unique for the given read location and date
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:minLength value="1"/>
+					<xsd:maxLength value="10"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+      
+			<xsd:simpleType name="FlockNumber_Type">
+				<xsd:annotation>
+					<xsd:documentation>Flock number</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:int"/>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="MovementType_Type">
+				<xsd:annotation>
+					<xsd:documentation> Integer movement type enumeration </xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:int">
+					<xsd:enumeration value="2">
+						<xsd:annotation>
+							<xsd:documentation> On Movement </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="3">
+						<xsd:annotation>
+							<xsd:documentation> Off Movement </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="4">
+						<xsd:annotation>
+							<xsd:documentation> On and Off Movement </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="5">
+						<xsd:annotation>
+							<xsd:documentation> On Farm Death </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="6">
+						<xsd:annotation>
+							<xsd:documentation> Animal Tagged </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="7">
+						<xsd:annotation>
+							<xsd:documentation> Surplus - Unused Tags </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="8">
+						<xsd:annotation>
+							<xsd:documentation> Abbattoir Death </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="9">
+						<xsd:annotation>
+							<xsd:documentation> Lost Tag </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="10">
+						<xsd:annotation>
+							<xsd:documentation> Recorded - No Movement </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+      <xsd:simpleType name="Species_Type">
+        <xsd:restriction base="xsd:int">
+  				<xsd:enumeration value="2">
+  					<xsd:annotation>
+  						<xsd:documentation>Bovine</xsd:documentation>
+  					</xsd:annotation>
+  				</xsd:enumeration>
+  				<xsd:enumeration value="3">
+  					<xsd:annotation>
+  						<xsd:documentation>Pig</xsd:documentation>
+  					</xsd:annotation>
+  				</xsd:enumeration>
+  				<xsd:enumeration value="4">
+  					<xsd:annotation>
+  						<xsd:documentation>Sheep</xsd:documentation>
+  					</xsd:annotation>
+  				</xsd:enumeration>
+        </xsd:restriction>
+      </xsd:simpleType>
+      
+      <xsd:simpleType name="LotDescription_Type">
+        <xsd:restriction base="xsd:int">
+          <xsd:enumeration value="1">
+          	<xsd:annotation>
+  						<xsd:documentation>Porkers</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="2">
+          	<xsd:annotation>
+  						<xsd:documentation>Cutters</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="3">
+          	<xsd:annotation>
+  						<xsd:documentation>Baconers</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="4">
+          	<xsd:annotation>
+  						<xsd:documentation>Backfatters</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="5">
+          	<xsd:annotation>
+  						<xsd:documentation>Breeding Pigs</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="6">
+          	<xsd:annotation>
+  						<xsd:documentation>Sows</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="7">
+          	<xsd:annotation>
+  						<xsd:documentation>Boars</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="8">
+          	<xsd:annotation>
+  						<xsd:documentation>Boars &amp; Sows</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="9">
+          	<xsd:annotation>
+  						<xsd:documentation>Weaners</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="10">
+          	<xsd:annotation>
+  						<xsd:documentation>Babies</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="11">
+          	<xsd:annotation>
+  						<xsd:documentation>Nursery Stores</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="12">
+          	<xsd:annotation>
+  						<xsd:documentation>Finisher Stores</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="13">
+          	<xsd:annotation>
+  						<xsd:documentation>Fat</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="14">
+          	<xsd:annotation>
+  						<xsd:documentation>Foster huts</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="15">
+          	<xsd:annotation>
+  						<xsd:documentation>Mixed</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="16">
+          	<xsd:annotation>
+  						<xsd:documentation>Gilts</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="17">
+          	<xsd:annotation>
+  						<xsd:documentation>Wild Boar</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="18">
+          	<xsd:annotation>
+  						<xsd:documentation>Culls</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="19">
+          	<xsd:annotation>
+  						<xsd:documentation>Breeding Stores</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="20">
+          	<xsd:annotation>
+  						<xsd:documentation>In Pig Sows</xsd:documentation>
+  					</xsd:annotation>
+          </xsd:enumeration>
+        </xsd:restriction>
+      </xsd:simpleType>
+      
+      <xsd:simpleType name="IDType_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="temp"/>
+          <xsd:enumeration value="batch"/>
+          <xsd:enumeration value="ids"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      
+      <xsd:simpleType name="BatchMark_Type">
+        <xsd:restriction base="xsd:string">
+          <xsd:length value="8"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            
+			<xsd:simpleType name="CPH_Type">
+				<xsd:annotation>
+					<xsd:documentation> 
+						Holding reference of the form CC/PPP/HHHH or 4 digit abattoir number
+						for translation to CPH - if recognised
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:length value="11"/>
+					<xsd:pattern value="([0-9]{2}/[0-9]{3}/[0-9]{4})|([0-9]{4,4})"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="TagReadings_Structure">
+				<xsd:annotation>
+					<xsd:documentation> Complex type used to represent a collection of one or more
+						tag readings </xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="TagReading" type="tns:TagReading_Structure" minOccurs="0"
+						maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+      <xsd:complexType name="FlockTags_Structure">
+        <xsd:sequence>
+          <xsd:element name="FlockTag" type="tns:FlockTag_Structure" minOccurs="0"
+            maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      
+      <xsd:complexType name="PigIdentities_Structure">
+			  <xsd:sequence>
+			    <xsd:element name="PigIdentity" type="tns:PigIdentity_Structure" minOccurs="0" maxOccurs="unbounded"/>
+			  </xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="FCI_Structure">
+			  <xsd:sequence>
+			    <xsd:element minOccurs="0" maxOccurs="1" name="ConsignmentMedicines" type="xsd:string"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="IndividualMedicines" type="xsd:string"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="WithdrawalPeriodsMet" type="tns:FCIWithdrawalPeriodsMet_Type"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="InjuredPigs" type="xsd:int"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="TailBitePigs" type="xsd:int"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="PoorDoerPigs" type="xsd:int"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="HerniaPigs" type="xsd:int"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ZNCPScore" type="xsd:string"/>
+			  </xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:simpleType name="FCIWithdrawalPeriodsMet_Type">
+				<xsd:restriction base="xsd:int">
+					<xsd:enumeration value="0">
+						<xsd:annotation>
+							<xsd:documentation>Not relevant for this movement (e.g. moves within a business or to shows)</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="1">
+					  <xsd:annotation>
+							<xsd:documentation>
+							  The required withdrawal period for all medicines has been adhered to, no medicines have been administered
+							  in the past 28 days
+						  </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="2">
+					  <xsd:annotation>
+							<xsd:documentation>
+						    The required withdrawal period has not been met
+						  </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="HexTagID_Type">
+				<xsd:annotation>
+					<xsd:documentation> 16 characters of hex representing a tag
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:length value="16"/>
+					<xsd:pattern value="[A-Za-z0-9]{16}"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="ISO24631TagID_Type">
+				<xsd:annotation>
+					<xsd:documentation>Decimal tag as specified by ISO 24631</xsd:documentation>
+				</xsd:annotation>
+				<xsd:restriction base="xsd:string">
+					<xsd:length value="22"/>
+					<xsd:pattern value="[0-9]{22}"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="FindIncompleteLotsRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="FindIncompleteLotsResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="FindIncompleteLotDatesRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="FindIncompleteLotDatesResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+						  <xsd:element name="LotDate" type="xsd:date" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="CreateCompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lot" type="tns:Lot_Structure"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="CreateCompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+				  	<xsd:sequence>
+  						<xsd:element name="Lot" type="tns:Lot_Structure" minOccurs="1" maxOccurs="1"/>
+  					</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="CompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+							<xsd:element name="Lot" type="tns:Lot_Structure" minOccurs="0" maxOccurs="1" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="CompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lot" type="tns:Lot_Structure" minOccurs="1" maxOccurs="1"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetIncompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+						</xsd:sequence>		
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetIncompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lot" type="tns:Lot_Structure"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="DeleteIncompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+						</xsd:sequence>		
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="DeleteIncompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetIncompleteLotsRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotDate" type="xsd:date"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetIncompleteLotsResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="CreateIncompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+					    <xsd:sequence>
+        					<xsd:element name="Lot" type="tns:Lot_Structure" />
+        				</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="CreateIncompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+					    <xsd:sequence>
+    					    <xsd:element name="Lot" type="tns:Lot_Structure" />
+    					</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UpdateIncompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+							<xsd:element name="Lot" type="tns:Lot_Structure" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UpdateIncompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UpdateIncompleteLotByReferenceRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+						    <xsd:element name="LotReference" type="tns:LotReference_Type"/>
+							<xsd:element name="Lot" type="tns:Lot_Structure" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UpdateCompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+					  <xsd:sequence>
+					    <xsd:element name="Lot" type="tns:Lot_Structure" />
+					  </xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UpdateCompleteLotByReferenceRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+					    <xsd:element name="LotReference" type="tns:LotReference_Type"/>
+							<xsd:element name="Lot" type="tns:Lot_Structure" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="SplitIncompleteLotAtRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+							<xsd:element name="SplitAt" type="xsd:dateTime"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="SplitIncompleteLotAtResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="MergeIncompleteLotsRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotDate" type="xsd:date"/>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type" minOccurs="2" maxOccurs="2" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="MergeIncompleteLotsResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lot" type="tns:Lot_Structure" minOccurs="0" />
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="FindCompleteLotsRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="FindCompleteLotsResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetCompleteLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+						</xsd:sequence>		
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetCompleteLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lot" type="tns:Lot_Structure"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetCompleteLotByReferenceRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotReference" type="tns:LotReference_Type"/>
+						</xsd:sequence>		
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetCompleteLotByReferenceResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="Lot" type="tns:Lot_Structure"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="CancelCompleteLotByReferenceRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotReference" type="tns:LotReference_Type"/>
+						</xsd:sequence>		
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="CancelCompleteLotByReferenceResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetCompleteLotsRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotDate" type="xsd:date"/>
+						</xsd:sequence>		
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="GetCompleteLotsResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+						  <xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetAnimalsOnHoldingRequest_Structure">
+		    <xsd:complexContent>
+	        <xsd:extension base="tns:AbstractRequest_Structure">
+            <xsd:sequence>
+              <xsd:element name="HoldingNumber" type="tns:CPH_Type"/>
+            </xsd:sequence>
+	        </xsd:extension>
+		    </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetAnimalsOnHoldingResponse_Structure">
+		    <xsd:complexContent>
+	        <xsd:extension base="tns:AbstractResponse_Structure">
+	          <xsd:sequence>
+    					<xsd:element name="Animals" type="tns:Animals_Structure" minOccurs="0" />
+    				</xsd:sequence>
+	        </xsd:extension>
+		    </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="FindLotsByDestinationLocationRequest_Structure">
+			  <xsd:complexContent>
+          <xsd:extension base="tns:AbstractRequest_Structure">
+            <xsd:sequence>
+              <xsd:element name="DestinationLocation" type="tns:CPH_Type" minOccurs="1" maxOccurs="1"/>
+              <xsd:element name="FromDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+              <xsd:element name="ToDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+              <xsd:element name="Species" type="tns:Species_Type" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+          </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="FindLotsByDestinationLocationResponse_Structure">
+			  <xsd:complexContent>
+          <xsd:extension base="tns:AbstractResponse_Structure">
+            <xsd:sequence>
+    					<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+    				</xsd:sequence>
+          </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetLotsByDestinationLocationRequest_Structure">
+			  <xsd:complexContent>
+          <xsd:extension base="tns:AbstractRequest_Structure">
+            <xsd:sequence>
+              <xsd:element name="DestinationLocation" type="tns:CPH_Type" minOccurs="1" maxOccurs="1"/>
+              <xsd:element name="FromDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+              <xsd:element name="ToDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+              <xsd:element name="Species" type="tns:Species_Type" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+          </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetLotsByDestinationLocationResponse_Structure">
+			  <xsd:complexContent>
+          <xsd:extension base="tns:AbstractResponse_Structure">
+            <xsd:sequence>
+    					<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+    				</xsd:sequence>
+          </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="FindLotsByDepartureLocationRequest_Structure">
+			  <xsd:complexContent>
+			    <xsd:extension base="tns:AbstractRequest_Structure">
+			      <xsd:sequence>
+  			      <xsd:element name="DepartureLocation" type="tns:CPH_Type" minOccurs="1" maxOccurs="1"/>
+  			      <xsd:element name="FromDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+  			      <xsd:element name="ToDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+  			      <xsd:element name="Species" type="tns:Species_Type" minOccurs="0" maxOccurs="1"/>
+  			    </xsd:sequence>
+			    </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="FindLotsByDepartureLocationResponse_Structure">
+			  <xsd:complexContent>
+          <xsd:extension base="tns:AbstractResponse_Structure">
+            <xsd:sequence>
+    					<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+    				</xsd:sequence>
+          </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetLotsByDepartureLocationRequest_Structure">
+			  <xsd:complexContent>
+			    <xsd:extension base="tns:AbstractRequest_Structure">
+			      <xsd:sequence>
+  			      <xsd:element name="DepartureLocation" type="tns:CPH_Type" minOccurs="1" maxOccurs="1"/>
+  			      <xsd:element name="FromDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+  			      <xsd:element name="ToDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+  			      <xsd:element name="Species" type="tns:Species_Type" minOccurs="0" maxOccurs="1"/>
+  			    </xsd:sequence>
+			    </xsd:extension>
+			  </xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetLotsByDepartureLocationResponse_Structure">
+			  <xsd:complexContent>
+          <xsd:extension base="tns:AbstractResponse_Structure">
+            <xsd:sequence>
+    					<xsd:element name="Lots" type="tns:Lots_Structure" minOccurs="0"/>
+    				</xsd:sequence>
+          </xsd:extension>
+			  </xsd:complexContent>
+      </xsd:complexType>
+
+			<xsd:complexType name="GetSummaryByLotRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="LotDate" type="xsd:date"/>
+							<xsd:element name="ReadLocation" type="tns:CPH_Type"/>
+							<xsd:element name="LotNumber" type="tns:LotNumber_Type"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetSummaryByLotResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="FlockTags" type="tns:FlockTags_Structure" minOccurs="0" maxOccurs="1"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetSummaryByMovementRequest_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractRequest_Structure">
+						<xsd:sequence>
+							<xsd:element name="DepartureLocation" type="tns:CPH_Type"/>
+							<xsd:element name="DestinationLocation" type="tns:CPH_Type"/>
+							<xsd:element name="LotDate" type="xsd:date"/>
+							<xsd:element name="WithinDays" type="xsd:int"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetSummaryByMovementResponse_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractResponse_Structure">
+						<xsd:sequence>
+							<xsd:element name="SummaryDates" type="tns:SummaryDates_Structure" minOccurs="1" maxOccurs="1"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+      <xsd:complexType name="SummaryDates_Structure">
+        <xsd:sequence>
+          <xsd:element name="SummaryDate" type="tns:SummaryDate_Structure" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+			<xsd:complexType name="SummaryDate_Structure">
+				<xsd:sequence>
+				  <xsd:element name="FlockTags" type="tns:FlockTags_Structure" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute name="date" type="xsd:date" use="required"/>
+			</xsd:complexType>
+			
+			<xsd:complexType name="LotValidationError_Structure">
+				<xsd:sequence>
+					<xsd:element name="Property" type="xsd:string"/>
+					<xsd:element name="Message" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="LotValidationErrors_Structure">
+				<xsd:sequence>
+					<xsd:element name="Error" type="tns:LotValidationError_Structure" minOccurs="1" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+				
+			<xsd:complexType name="LotValidationFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure">
+						<xsd:sequence>
+							<xsd:element name="Errors" type="tns:LotValidationErrors_Structure"/>
+						</xsd:sequence>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+
+			<xsd:complexType name="LotNotFoundFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure"/>	
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="LotAlreadyExistsFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure"/>	
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:complexType name="UnmergeableLotsFault_Structure">
+				<xsd:complexContent>
+					<xsd:extension base="tns:AbstractFault_Structure"/>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+			<xsd:element name="CreateIncompleteLotRequest" type="tns:CreateIncompleteLotRequest_Structure"/>
+			<xsd:element name="CreateIncompleteLotResponse" type="tns:CreateIncompleteLotResponse_Structure"/>
+			<xsd:element name="CreateCompleteLotRequest" type="tns:CreateCompleteLotRequest_Structure"/>
+			<xsd:element name="CreateCompleteLotResponse" type="tns:CreateCompleteLotResponse_Structure"/>
+			<xsd:element name="UpdateIncompleteLotRequest" type="tns:UpdateIncompleteLotRequest_Structure"/>
+			<xsd:element name="UpdateIncompleteLotResponse" type="tns:UpdateIncompleteLotResponse_Structure"/>
+			<xsd:element name="UpdateIncompleteLotByReferenceRequest" type="tns:UpdateIncompleteLotByReferenceRequest_Structure"/>
+			<xsd:element name="UpdateCompleteLotResponse" type="tns:UpdateCompleteLotResponse_Structure"/>
+			<xsd:element name="UpdateCompleteLotByReferenceRequest" type="tns:UpdateCompleteLotByReferenceRequest_Structure"/>
+			<xsd:element name="CompleteLotRequest" type="tns:CompleteLotRequest_Structure"/>
+			<xsd:element name="CompleteLotResponse" type="tns:CompleteLotResponse_Structure"/>			
+			<xsd:element name="FindIncompleteLotsRequest" type="tns:FindIncompleteLotsRequest_Structure"/>
+			<xsd:element name="FindIncompleteLotsResponse" type="tns:FindIncompleteLotsResponse_Structure"/>
+			<xsd:element name="FindIncompleteLotDatesRequest" type="tns:FindIncompleteLotDatesRequest_Structure"/>
+			<xsd:element name="FindIncompleteLotDatesResponse" type="tns:FindIncompleteLotDatesResponse_Structure"/>
+			<xsd:element name="GetIncompleteLotRequest" type="tns:GetIncompleteLotRequest_Structure"/>
+			<xsd:element name="GetIncompleteLotResponse" type="tns:GetIncompleteLotResponse_Structure"/>
+			<xsd:element name="DeleteIncompleteLotRequest" type="tns:DeleteIncompleteLotRequest_Structure"/>
+			<xsd:element name="DeleteIncompleteLotResponse" type="tns:DeleteIncompleteLotResponse_Structure"/>
+			<xsd:element name="GetIncompleteLotsRequest" type="tns:GetIncompleteLotsRequest_Structure"/>
+			<xsd:element name="GetIncompleteLotsResponse" type="tns:GetIncompleteLotsResponse_Structure"/>
+			<xsd:element name="SplitIncompleteLotAtRequest" type="tns:SplitIncompleteLotAtRequest_Structure"/>
+			<xsd:element name="SplitIncompleteLotAtResponse" type="tns:SplitIncompleteLotAtResponse_Structure"/>
+			<xsd:element name="MergeIncompleteLotsRequest" type="tns:MergeIncompleteLotsRequest_Structure"/>
+			<xsd:element name="MergeIncompleteLotsResponse" type="tns:MergeIncompleteLotsResponse_Structure"/>
+			<xsd:element name="FindCompleteLotsRequest" type="tns:FindCompleteLotsRequest_Structure"/>
+			<xsd:element name="FindCompleteLotsResponse" type="tns:FindCompleteLotsResponse_Structure"/>
+			<xsd:element name="GetCompleteLotRequest" type="tns:GetCompleteLotRequest_Structure"/>
+			<xsd:element name="GetCompleteLotResponse" type="tns:GetCompleteLotResponse_Structure"/>
+			<xsd:element name="GetCompleteLotByReferenceRequest" type="tns:GetCompleteLotByReferenceRequest_Structure"/>
+			<xsd:element name="GetCompleteLotByReferenceResponse" type="tns:GetCompleteLotByReferenceResponse_Structure"/>
+			<xsd:element name="CancelCompleteLotByReferenceRequest" type="tns:CancelCompleteLotByReferenceRequest_Structure"/>
+			<xsd:element name="CancelCompleteLotByReferenceResponse" type="tns:CancelCompleteLotByReferenceResponse_Structure"/>
+			<xsd:element name="GetCompleteLotsRequest" type="tns:GetCompleteLotsRequest_Structure"/>
+			<xsd:element name="GetCompleteLotsResponse" type="tns:GetCompleteLotsResponse_Structure"/>
+		  <xsd:element name="GetAnimalsOnHoldingRequest" type="tns:GetAnimalsOnHoldingRequest_Structure"/>
+			<xsd:element name="GetAnimalsOnHoldingResponse" type="tns:GetAnimalsOnHoldingResponse_Structure"/>
+			<xsd:element name="FindLotsByDestinationLocationRequest" type="tns:FindLotsByDestinationLocationRequest_Structure"/>
+			<xsd:element name="FindLotsByDestinationLocationResponse" type="tns:FindLotsByDestinationLocationResponse_Structure"/>
+		  <xsd:element name="GetLotsByDestinationLocationRequest" type="tns:GetLotsByDestinationLocationRequest_Structure"/>
+			<xsd:element name="GetLotsByDestinationLocationResponse" type="tns:GetLotsByDestinationLocationResponse_Structure"/>
+			<xsd:element name="FindLotsByDepartureLocationRequest" type="tns:FindLotsByDepartureLocationRequest_Structure"/>
+			<xsd:element name="FindLotsByDepartureLocationResponse" type="tns:FindLotsByDepartureLocationResponse_Structure"/>
+			<xsd:element name="GetLotsByDepartureLocationRequest" type="tns:GetLotsByDepartureLocationRequest_Structure"/>
+			<xsd:element name="GetLotsByDepartureLocationResponse" type="tns:GetLotsByDepartureLocationResponse_Structure"/>
+			<xsd:element name="GetSummaryByLotRequest" type="tns:GetSummaryByLotRequest_Structure"/>
+			<xsd:element name="GetSummaryByLotResponse" type="tns:GetSummaryByLotResponse_Structure"/>
+			<xsd:element name="GetSummaryByMovementRequest" type="tns:GetSummaryByMovementRequest_Structure"/>
+			<xsd:element name="GetSummaryByMovementResponse" type="tns:GetSummaryByMovementResponse_Structure"/>
+			<xsd:element name="LotValidationFault" type="tns:LotValidationFault_Structure"/>
+			<xsd:element name="LotNotFoundFault" type="tns:LotNotFoundFault_Structure"/>
+			<xsd:element name="LotAlreadyExistsFault" type="tns:LotAlreadyExistsFault_Structure"/>
+			<xsd:element name="MalformedRequestFault" type="tns:MalformedRequestFault_Structure"/>
+			<xsd:element name="UnsupportedSchemaVersionFault" type="tns:UnsupportedSchemaVersionFault_Structure"/>
+			<xsd:element name="UnmergeableLotsFault" type="tns:UnmergeableLotsFault_Structure"/>
+			<xsd:element name="SecurityFault" type="tns:SecurityFault_Structure"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="CreateIncompleteLotRequest">
+		<wsdl:part name="CreateIncompleteLotRequest" element="tns:CreateIncompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateIncompleteLotResponse">
+		<wsdl:part name="CreateIncompleteLotResponse" element="tns:CreateIncompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateIncompleteLotRequest">
+		<wsdl:part name="UpdateIncompleteLotRequest" element="tns:UpdateIncompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateIncompleteLotResponse">
+		<wsdl:part name="UpdateIncompleteLotResponse" element="tns:UpdateIncompleteLotResponse"/>
+	</wsdl:message>
+  <wsdl:message name="UpdateIncompleteLotByReferenceRequest">
+    <wsdl:part name="UpdateIncompleteLotByReferenceRequest" element="tns:UpdateIncompleteLotByReferenceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateCompleteLotResponse">
+		<wsdl:part name="UpdateCompleteLotResponse" element="tns:UpdateCompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateCompleteLotByReferenceRequest">
+    <wsdl:part name="UpdateCompleteLotByReferenceRequest" element="tns:UpdateCompleteLotByReferenceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateCompleteLotRequest">
+		<wsdl:part name="CreateCompleteLotRequest" element="tns:CreateCompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CreateCompleteLotResponse">
+		<wsdl:part name="CreateCompleteLotResponse" element="tns:CreateCompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FindIncompleteLotsRequest">
+		<wsdl:part name="FindIncompleteLotsRequest" element="tns:FindIncompleteLotsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="FindIncompleteLotsResponse">
+		<wsdl:part name="FindIncompleteLotsResponse" element="tns:FindIncompleteLotsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FindIncompleteLotDatesRequest">
+	  <wsdl:part name="FindIncompleteLotDatesRequest" element="tns:FindIncompleteLotDatesRequest"/>
+	</wsdl:message>
+	<wsdl:message name="FindIncompleteLotDatesResponse">
+	  <wsdl:part name="FindIncompleteLotDatesResponse" element="tns:FindIncompleteLotDatesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CompleteLotRequest">
+		<wsdl:part name="CompleteLotRequest" element="tns:CompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CompleteLotResponse">
+		<wsdl:part name="CompleteLotResponse" element="tns:CompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetIncompleteLotRequest">
+		<wsdl:part name="GetIncompleteLotRequest" element="tns:GetIncompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetIncompleteLotResponse">
+		<wsdl:part name="GetIncompleteLotResponse" element="tns:GetIncompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteIncompleteLotRequest">
+		<wsdl:part name="DeleteIncompleteLotRequest" element="tns:DeleteIncompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteIncompleteLotResponse">
+		<wsdl:part name="DeleteIncompleteLotResponse" element="tns:DeleteIncompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetIncompleteLotsRequest">
+		<wsdl:part name="GetIncompleteLotsRequest" element="tns:GetIncompleteLotsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetIncompleteLotsResponse">
+		<wsdl:part name="GetIncompleteLotsResponse" element="tns:GetIncompleteLotsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SplitIncompleteLotAtRequest">
+		<wsdl:part name="SplitIncompleteLotAtRequest" element="tns:SplitIncompleteLotAtRequest"/>
+	</wsdl:message>
+	<wsdl:message name="SplitIncompleteLotAtResponse">
+		<wsdl:part name="SplitIncompleteLotAtResponse" element="tns:SplitIncompleteLotAtResponse"/>
+	</wsdl:message>
+	<wsdl:message name="MergeIncompleteLotsRequest">
+		<wsdl:part name="MergeIncompleteLotsRequest" element="tns:MergeIncompleteLotsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="MergeIncompleteLotsResponse">
+		<wsdl:part name="MergeIncompleteLotsResponse" element="tns:MergeIncompleteLotsResponse"/>
+	</wsdl:message>	
+	<wsdl:message name="FindCompleteLotsRequest">
+		<wsdl:part name="FindCompleteLotsRequest" element="tns:FindCompleteLotsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="FindCompleteLotsResponse">
+		<wsdl:part name="FindCompleteLotsResponse" element="tns:FindCompleteLotsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetCompleteLotRequest">
+		<wsdl:part name="GetCompleteLotRequest" element="tns:GetCompleteLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetCompleteLotResponse">
+		<wsdl:part name="GetCompleteLotResponse" element="tns:GetCompleteLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetCompleteLotByReferenceRequest">
+		<wsdl:part name="GetCompleteLotByReferenceRequest" element="tns:GetCompleteLotByReferenceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetCompleteLotByReferenceResponse">
+		<wsdl:part name="GetCompleteLotByReferenceResponse" element="tns:GetCompleteLotByReferenceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CancelCompleteLotByReferenceRequest">
+		<wsdl:part name="CancelCompleteLotByReferenceRequest" element="tns:CancelCompleteLotByReferenceRequest"/>
+	</wsdl:message>
+	<wsdl:message name="CancelCompleteLotByReferenceResponse">
+		<wsdl:part name="CancelCompleteLotByReferenceResponse" element="tns:CancelCompleteLotByReferenceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetCompleteLotsRequest">
+		<wsdl:part name="GetCompleteLotsRequest" element="tns:GetCompleteLotsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetCompleteLotsResponse">
+		<wsdl:part name="GetCompleteLotsResponse" element="tns:GetCompleteLotsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetAnimalsOnHoldingRequest">
+	  <wsdl:part name="GetAnimalsOnHoldingRequest" element="tns:GetAnimalsOnHoldingRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetAnimalsOnHoldingResponse">
+	  <wsdl:part name="GetAnimalsOnHoldingResponse" element="tns:GetAnimalsOnHoldingResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FindLotsByDestinationLocationRequest">
+	  <wsdl:part name="FindLotsByDestinationLocationRequest" element="tns:FindLotsByDestinationLocationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="FindLotsByDestinationLocationResponse">
+	  <wsdl:part name="FindLotsByDestinationLocationResponse" element="tns:FindLotsByDestinationLocationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetLotsByDestinationLocationRequest">
+	  <wsdl:part name="GetLotsByDestinationLocationRequest" element="tns:GetLotsByDestinationLocationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetLotsByDestinationLocationResponse">
+	  <wsdl:part name="GetLotsByDestinationLocationResponse" element="tns:GetLotsByDestinationLocationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FindLotsByDepartureLocationRequest">
+	  <wsdl:part name="FindLotsByDepartureLocationRequest" element="tns:FindLotsByDepartureLocationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="FindLotsByDepartureLocationResponse">
+	  <wsdl:part name="FindLotsByDepartureLocationResponse" element="tns:FindLotsByDepartureLocationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetLotsByDepartureLocationRequest">
+	  <wsdl:part name="GetLotsByDepartureLocationRequest" element="tns:GetLotsByDepartureLocationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetLotsByDepartureLocationResponse">
+	  <wsdl:part name="GetLotsByDepartureLocationResponse" element="tns:GetLotsByDepartureLocationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetSummaryByLotRequest">
+		<wsdl:part name="GetSummaryByLotRequest" element="tns:GetSummaryByLotRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetSummaryByLotResponse">
+		<wsdl:part name="GetSummaryByLotResponse" element="tns:GetSummaryByLotResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetSummaryByMovementRequest">
+		<wsdl:part name="GetSummaryByMovementRequest" element="tns:GetSummaryByMovementRequest"/>
+	</wsdl:message>
+	<wsdl:message name="GetSummaryByMovementResponse">
+		<wsdl:part name="GetSummaryByMovementResponse" element="tns:GetSummaryByMovementResponse"/>
+	</wsdl:message>
+	<wsdl:message name="LotValidationFault">
+		<wsdl:part name="LotValidationFault" element="tns:LotValidationFault"/>
+	</wsdl:message>
+	<wsdl:message name="LotNotFoundFault">
+		<wsdl:part name="LotNotFoundFault" element="tns:LotNotFoundFault"/>
+	</wsdl:message>
+	<wsdl:message name="LotAlreadyExistsFault">
+		<wsdl:part name="LotAlreadyExistsFault" element="tns:LotAlreadyExistsFault"/>
+	</wsdl:message>
+	<wsdl:message name="MalformedRequestFault">
+		<wsdl:part name="MalformedRequestFault" element="tns:MalformedRequestFault"/>
+	</wsdl:message>
+	<wsdl:message name="UnsupportedSchemaVersionFault">
+		<wsdl:part name="UnsupportedSchemaVersionFault" element="tns:UnsupportedSchemaVersionFault"/>
+	</wsdl:message>
+	<wsdl:message name="UnmergeableLotsFault">
+		<wsdl:part name="UnmergeableLotsFault" element="tns:UnmergeableLotsFault"/>
+	</wsdl:message>
+	<wsdl:message name="SecurityFault">
+		<wsdl:part name="SecurityFault" element="tns:SecurityFault"/>
+	</wsdl:message>
+
+	<wsdl:portType name="api">
+		<wsdl:operation name="CreateIncompleteLot">
+			<wsdl:input message="tns:CreateIncompleteLotRequest"/>
+			<wsdl:output message="tns:CreateIncompleteLotResponse"/>
+			<wsdl:fault message="tns:LotValidationFault" name="LotValidationFault"/>
+			<wsdl:fault message="tns:LotAlreadyExistsFault" name="LotAlreadyExistsFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateIncompleteLot">
+			<wsdl:input message="tns:UpdateIncompleteLotRequest"/>
+			<wsdl:output message="tns:UpdateIncompleteLotResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:LotValidationFault" name="LotValidationFault"/>
+			<wsdl:fault message="tns:LotAlreadyExistsFault" name="LotAlreadyExistsFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateIncompleteLotByReference">
+  		<wsdl:input message="tns:UpdateIncompleteLotByReferenceRequest"/>
+  		<wsdl:output message="tns:UpdateIncompleteLotResponse"/>
+  		<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+  		<wsdl:fault message="tns:LotValidationFault" name="LotValidationFault"/>
+  		<wsdl:fault message="tns:LotAlreadyExistsFault" name="LotAlreadyExistsFault"/>
+  		<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+  		<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateCompleteLotByReference">
+  		<wsdl:input message="tns:UpdateCompleteLotByReferenceRequest"/>
+  		<wsdl:output message="tns:UpdateCompleteLotResponse"/>
+  		<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+  		<wsdl:fault message="tns:LotValidationFault" name="LotValidationFault"/>
+  		<wsdl:fault message="tns:LotAlreadyExistsFault" name="LotAlreadyExistsFault"/>
+  		<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+  		<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="CreateCompleteLot">
+			<wsdl:input message="tns:CreateCompleteLotRequest"/>
+			<wsdl:output message="tns:CreateCompleteLotResponse"/>
+			<wsdl:fault message="tns:LotValidationFault" name="LotValidationFault"/>
+			<wsdl:fault message="tns:LotAlreadyExistsFault" name="LotAlreadyExistsFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindIncompleteLots">
+			<wsdl:input message="tns:FindIncompleteLotsRequest"/>
+			<wsdl:output message="tns:FindIncompleteLotsResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindIncompleteLotDates">
+			<wsdl:input message="tns:FindIncompleteLotDatesRequest"/>
+			<wsdl:output message="tns:FindIncompleteLotDatesResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="CompleteLot">
+			<wsdl:input message="tns:CompleteLotRequest"/>
+			<wsdl:output message="tns:CompleteLotResponse"/>
+			<wsdl:fault message="tns:LotValidationFault" name="LotValidationFault"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:LotAlreadyExistsFault" name="LotAlreadyExistsFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetIncompleteLot">
+			<wsdl:input message="tns:GetIncompleteLotRequest"/>
+			<wsdl:output message="tns:GetIncompleteLotResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="DeleteIncompleteLot">
+			<wsdl:input message="tns:DeleteIncompleteLotRequest"/>
+			<wsdl:output message="tns:DeleteIncompleteLotResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetIncompleteLots">
+			<wsdl:input message="tns:GetIncompleteLotsRequest"/>
+			<wsdl:output message="tns:GetIncompleteLotsResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="SplitIncompleteLotAt">
+			<wsdl:input message="tns:SplitIncompleteLotAtRequest"/>
+			<wsdl:output message="tns:SplitIncompleteLotAtResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="MergeIncompleteLots">
+			<wsdl:input message="tns:MergeIncompleteLotsRequest"/>
+			<wsdl:output message="tns:MergeIncompleteLotsResponse"/>
+			<wsdl:fault message="tns:UnmergeableLotsFault" name="UnmergeableLotsFault"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindCompleteLots">
+			<wsdl:input message="tns:FindCompleteLotsRequest"/>
+			<wsdl:output message="tns:FindCompleteLotsResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetCompleteLot">
+			<wsdl:input message="tns:GetCompleteLotRequest"/>
+			<wsdl:output message="tns:GetCompleteLotResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetCompleteLotByReference">
+			<wsdl:input message="tns:GetCompleteLotByReferenceRequest"/>
+			<wsdl:output message="tns:GetCompleteLotByReferenceResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="CancelCompleteLotByReference">
+			<wsdl:input message="tns:CancelCompleteLotByReferenceRequest"/>
+			<wsdl:output message="tns:CancelCompleteLotByReferenceResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+				
+		<wsdl:operation name="GetCompleteLots">
+			<wsdl:input message="tns:GetCompleteLotsRequest"/>
+			<wsdl:output message="tns:GetCompleteLotsResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetAnimalsOnHolding">
+			<wsdl:input message="tns:GetAnimalsOnHoldingRequest"/>
+			<wsdl:output message="tns:GetAnimalsOnHoldingResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindLotsByDestinationLocation">
+			<wsdl:input message="tns:FindLotsByDestinationLocationRequest"/>
+			<wsdl:output message="tns:FindLotsByDestinationLocationResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetLotsByDestinationLocation">
+			<wsdl:input message="tns:GetLotsByDestinationLocationRequest"/>
+			<wsdl:output message="tns:GetLotsByDestinationLocationResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+
+		<wsdl:operation name="FindLotsByDepartureLocation">
+			<wsdl:input message="tns:FindLotsByDepartureLocationRequest"/>
+			<wsdl:output message="tns:FindLotsByDepartureLocationResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+			
+		<wsdl:operation name="GetLotsByDepartureLocation">
+			<wsdl:input message="tns:GetLotsByDepartureLocationRequest"/>
+			<wsdl:output message="tns:GetLotsByDepartureLocationResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+			<wsdl:fault message="tns:SecurityFault" name="SecurityFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetSummaryByLot">
+			<wsdl:input message="tns:GetSummaryByLotRequest"/>
+			<wsdl:output message="tns:GetSummaryByLotResponse"/>
+			<wsdl:fault message="tns:LotNotFoundFault" name="LotNotFoundFault"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetSummaryByMovement">
+			<wsdl:input message="tns:GetSummaryByMovementRequest"/>
+			<wsdl:output message="tns:GetSummaryByMovementResponse"/>
+			<wsdl:fault message="tns:MalformedRequestFault" name="MalformedRequestFault"/>
+			<wsdl:fault message="tns:UnsupportedSchemaVersionFault" name="UnsupportedSchemaVersionFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="apiSOAP" type="tns:api">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		
+		<wsdl:operation name="CreateIncompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/CreateIncompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotValidationFault">
+				<soap:fault name="LotValidationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotAlreadyExistsFault">
+				<soap:fault name="LotAlreadyExistsFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateIncompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/UpdateIncompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+			  <soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotValidationFault">
+				<soap:fault name="LotValidationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotAlreadyExistsFault">
+				<soap:fault name="LotAlreadyExistsFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateIncompleteLotByReference">
+			<soap:operation soapAction="http://api.scoteid.com/api/UpdateIncompleteLotByReference"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+			  <soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotValidationFault">
+				<soap:fault name="LotValidationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotAlreadyExistsFault">
+				<soap:fault name="LotAlreadyExistsFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="UpdateCompleteLotByReference">
+			<soap:operation soapAction="http://api.scoteid.com/api/UpdateCompleteLotByReference"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+			  <soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotValidationFault">
+				<soap:fault name="LotValidationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotAlreadyExistsFault">
+				<soap:fault name="LotAlreadyExistsFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="CreateCompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/CreateCompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotValidationFault">
+				<soap:fault name="LotValidationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotAlreadyExistsFault">
+				<soap:fault name="LotAlreadyExistsFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindIncompleteLots">
+			<soap:operation soapAction="http://api.scoteid.com/api/FindIncompleteLots"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindIncompleteLotDates">
+			<soap:operation soapAction="http://api.scoteid.com/api/FindIncompleteLotDates"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="CompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/CompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotValidationFault">
+				<soap:fault name="LotValidationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="LotAlreadyExistsFault">
+				<soap:fault name="LotAlreadyExistsFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetIncompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetIncompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="DeleteIncompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/DeleteIncompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetIncompleteLots">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetIncompleteLots"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="SplitIncompleteLotAt">
+			<soap:operation soapAction="http://api.scoteid.com/api/SplitIncompleteLotAt"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>		
+		
+		<wsdl:operation name="MergeIncompleteLots">
+			<soap:operation soapAction="http://api.scoteid.com/api/MergeIncompleteLots"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="UnmergeableLotsFault">
+				<soap:fault name="UnmergeableLotsFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="FindCompleteLots">
+			<soap:operation soapAction="http://api.scoteid.com/api/FindCompleteLots"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetCompleteLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetCompleteLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetCompleteLotByReference">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetCompleteLotByReference"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="CancelCompleteLotByReference">
+			<soap:operation soapAction="http://api.scoteid.com/api/CancelCompleteLotByReference"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetCompleteLots">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetCompleteLots"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	
+		<wsdl:operation name="GetSummaryByLot">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetSummaryByLot"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="LotNotFoundFault">
+				<soap:fault name="LotNotFoundFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetSummaryByMovement">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetSummaryByMovement"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="GetAnimalsOnHolding">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetAnimalsOnHolding"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FindLotsByDestinationLocation">
+			<soap:operation soapAction="http://api.scoteid.com/api/FindLotsByDestinationLocation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetLotsByDestinationLocation">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetLotsByDestinationLocation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FindLotsByDepartureLocation">
+			<soap:operation soapAction="http://api.scoteid.com/api/FindLotsByDepartureLocation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+				
+		<wsdl:operation name="GetLotsByDepartureLocation">
+			<soap:operation soapAction="http://api.scoteid.com/api/GetLotsByDepartureLocation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="MalformedRequestFault">
+				<soap:fault name="MalformedRequestFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="UnsupportedSchemaVersionFault">
+				<soap:fault name="UnsupportedSchemaVersionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SecurityFault">
+				<soap:fault name="SecurityFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="api">
+		<wsdl:port binding="tns:apiSOAP" name="apiSOAP">
+			<?php if(SCOTEID_WEBSERVICES_ENV == 'development') { ?>
+			<soap:address location="http://localhost:3000/api.php"/>
+			<?php } elseif(SCOTEID_WEBSERVICES_ENV == 'test') { ?>
+			<soap:address location="http://api.test.scoteid.com/api"/>
+			<?php } elseif(SCOTEID_WEBSERVICES_ENV == 'staging') { ?>
+		  <soap:address location="http://api.staging.scoteid.com/api"/>	
+			<?php } else { ?>
+			<soap:address location="http://api.scoteid.com/api"/>
+			<?php } ?>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

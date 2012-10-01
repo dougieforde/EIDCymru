@@ -92,7 +92,8 @@ abstract class ScotEID_AbstractRequest
         'SHEEPdata'                   => array('*'),
         'FarmIT 3000'                 => array('*'),
         'MorrisonsFarming'            => array('*'),
-        'Everysite ScotEID Interface' => array('*')
+        'Everysite ScotEID Interface' => array('*'),
+        'StockTrace Linx'             => array('*')
       );
     
       $ok = true;

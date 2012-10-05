@@ -72,11 +72,10 @@ class ScotEID_VionXMLProcessor
         
       $id = (string) $idn[0];  
       
-      $lot = ScotEID_CompletedLot::first(array('conditions' => array('foreign_reference' => $idn, 'uid' => $this->uid)));
+      $lot = ScotEID_CompletedLot::first(array('conditions' => array('lot_number' => $idn, 'uid' => $this->uid)));
       if($lot === null) {
         $lot = new ScotEID_CompletedLot();
         $lot->set_lot_number($id);
-        $lot->set_foreign_reference($id);
         $lot->set_species_id(3);
         $lot->set_movement_type_id(3);
         $lot->set_uid($this->uid);

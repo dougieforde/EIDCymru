@@ -309,15 +309,13 @@ class ScotEID_Lot extends ScotEID_ExtendedModel {
     parent::after_save();
     $this->create_tag_readings();
     // update batch_mark iterate over tag readings
-    if($this->get_species_id ==4) {
-      //$this->get_lot_flock_mark();
-      
-    }
-    $flock_marks = $this->get_lot_flock_marks();
-    if(count($flock_marks) == 1) {
-      $this->set_batch_mark($flock_marks[0]);
-    } else if (count($flock_marks) > 1) {
-      $this->set_batch_mark("mixed");
+    if($this->get_species_id() ==4) {
+      $flock_marks = $this->get_lot_flock_marks();
+      if(count($flock_marks) == 1) {
+        $this->set_batch_mark($flock_marks[0]);
+      } else if (count($flock_marks) > 1) {
+        $this->set_batch_mark("mixed");
+      } 
     } 
   }
   

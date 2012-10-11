@@ -308,6 +308,17 @@ class ScotEID_Lot extends ScotEID_ExtendedModel {
   protected function after_save() {
     parent::after_save();
     $this->create_tag_readings();
+    // update batch_mark iterate over tag readings
+    if($this->get_species_id ==4) {
+      //$this->get_lot_flock_mark();
+      
+    }
+    $flock_marks = $this->get_lot_flock_marks();
+    if(count($flock_marks) == 1) {
+      $this->set_batch_mark($flock_marks[0]);
+    } else if (count($flock_marks) > 1) {
+      $this->set_batch_mark("mixed");
+    } 
   }
   
   /* Record who is editing a lot if not the user who it belongs to - for creating
@@ -363,6 +374,23 @@ class ScotEID_Lot extends ScotEID_ExtendedModel {
       $sql = rtrim($sql, ",");
       dbw_query($sql);
     }
+  }
+  
+  public function get_lot_flock_marks() {  
+    $flock_marks = array();
+    if(count($this->get_tag_readings()) > 0) {
+      $tag_readings = $this->get_tag_readings();
+      foreach($tag_readings as $tag_reading) {
+        $flock_marks[] = $tag_reading->get_flock_number();
+      }
+    }
+    if(count($this->get_flock_tags()) > 0) {
+      $flock_tags = $this->get_flock_tags();
+      foreach($flock_tags as $flock_tag) {
+        $flock_marks[] = $flock_tag->get_flock_number();
+      }
+    }
+    return array_unique($flock_marks);
   }
   
   public static function get($sams_movement_reference) {

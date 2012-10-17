@@ -1,0 +1,7 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://api.scoteid.com/api/">
+   <SOAP-ENV:Body>
+      <ns1:CreateIncompleteLotResponse>
+         <LotReference>{EAE2CFF8-3C5F-241D-EDC5-C99DA7AE528C}</LotReference>
+      </ns1:CreateIncompleteLotResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

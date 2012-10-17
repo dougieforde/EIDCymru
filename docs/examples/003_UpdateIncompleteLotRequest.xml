@@ -1,0 +1,30 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.scoteid.com/api/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:UpdateIncompleteLotRequest>
+         <LotReference>{EAE2CFF8-3C5F-241D-EDC5-C99DA7AE528C}</LotReference>
+         <Lot>
+            <LotNumber>0001</LotNumber>
+            <LotDate>2010-08-03Z</LotDate>
+            <MovementType>2</MovementType>
+            <!--Optional:-->
+            <HeadCount>3</HeadCount>
+            <!--Optional:-->
+            <DepartureLocation>11/222/3333</DepartureLocation>
+            <!--Optional:-->
+            <ReadLocation>222/333/4444</ReadLocation>
+            <!--Optional:-->
+            <DestinationLocation>333/4444/5555</DestinationLocation>
+            <!--Optional:-->
+            <TransportInformation>
+               <!--Optional:-->
+               <TransportName>Bloggs &amp; Sons Hauliers</TransportName>
+               <!--Optional:-->
+               <TransportRegistration>ABC 1234</TransportRegistration>
+               <!--Optional:-->
+               <TransportPermitNumber>12-345-678</TransportPermitNumber>
+            </TransportInformation>
+         </Lot>
+      </api:UpdateIncompleteLotRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

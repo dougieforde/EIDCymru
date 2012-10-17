@@ -1,0 +1,15 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://api.scoteid.com/api/">
+   <SOAP-ENV:Body>
+      <ns1:GetIncompleteLotResponse>
+         <Lot>
+            <LotNumber>0001</LotNumber>
+            <LotDate>2010-03-09Z</LotDate>
+            <MovementType>2</MovementType>
+            <TagReadings>
+               <TagReading TagID="AAAAAAAAAAAAAAAB" TimeStamp="2010-03-09T15:04:39Z"/>
+               <TagReading TagID="AAAAAAAAAAAAAAAC" TimeStamp="2010-03-09T15:04:39Z"/>
+            </TagReadings>
+         </Lot>
+      </ns1:GetIncompleteLotResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,36 @@
+ScotEID_Model subclass implementation:
+
+// return the name of the underyling database table
+public static function get_table_name() {
+}
+
+// return the quoted primary key of the object
+// NB: that if the object has been updated, it MUST return the original primary key, i.e.
+// the one that is currently in the database
+public function get_primary_key() {
+}
+
+// returns an array of attributes tat are publically accessible
+protected static function public_attributes() {
+}
+
+// returns an array of all attributes
+protected static function get_attributes() {
+}
+
+// returns an array mapping database column names => attribute names
+public static function attribute_map() {
+}
+
+// returns all attributes quoted as column name => quoted_value
+public function quoted_attributes() {
+}
+
+// quote a single attribute/value pair
+public function quote_attribute($attribute, $value) {
+}
+
+// perform validations and add any errors using $object->add_error(<attribute_name>, <message>)
+protected function perform_validate() {
+}
+

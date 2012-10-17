@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+		  xmlns:api="http://api.scoteid.com/api/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <api:CreateIncompleteLotRequest>
+         <Lot>
+            <LotNumber>0001</LotNumber>
+            <LotDate>2010-08-03Z</LotDate>
+            <MovementType>2</MovementType>
+            <TagReadings>
+               <!--1 or more repetitions:-->
+               <TagReading TagID="AAAAAAAAAAAAAAAA" TimeStamp="2010-08-03T12:00:00Z"/>
+               <TagReading TagID="AAAAAAAAAAAAAAAB" TimeStamp="2010-08-03T12:00:01Z"/>
+               <TagReading TagID="AAAAAAAAAAAAAAAC" TimeStamp="2010-08-03T12:00:02Z"/>
+            </TagReadings>
+         </Lot>
+      </api:CreateIncompleteLotRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

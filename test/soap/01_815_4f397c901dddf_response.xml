@@ -1,0 +1,8 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://api.scoteid.com/api/">
+   <SOAP-ENV:Body>
+      <ns1:CreateIncompleteLotResponse>
+         <Timestamp>2012-02-21T09:50:33Z</Timestamp>
+         <Lot/>
+      </ns1:CreateIncompleteLotResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
